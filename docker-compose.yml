@@ -12,3 +12,21 @@ services:
       - ./pgdata:/var/lib/postgresql/data
     ports:
       - ${TYPEORM_PORT}:${TYPEORM_PORT}
+  backend:
+    container_name: backend-nest-graphql
+    build:
+      context: ./nest-graphql
+    depends_on:
+      - db
+    restart: unless-stopped
+    ports:
+      - '${PORT}:3001'
+    environment:
+      - PORT=${PORT}
+      - HOST=${HOST}
+      - TYPEORM_CONNECTION=${TYPEORM_CONNECTION}
+      - TYPEORM_USERNAME=${TYPEORM_USERNAME}
+      - TYPEORM_PASSWORD=${TYPEORM_PASSWORD}
+      - TYPEORM_DATABASE=${TYPEORM_DATABASE}
+      - TYPEORM_PORT=${TYPEORM_PORT}
+      - TYPEORM_HOST=db
